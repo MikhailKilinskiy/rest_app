@@ -1,0 +1,23 @@
+version: '3.3'
+services:
+  db:
+    image: postgres
+    container_name: my_postgres
+    environment:
+        - POSTGRES_DB=postgres
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+    ports:
+        - 5555:5432/tcp
+
+
+  web:
+    build: .
+    working_dir: /code/
+    command: /bin/sh -c "./docker-entrypoint.sh"
+    volumes:
+        - .:/code
+    ports:
+        - 8000:8000
+    depends_on:
+        - db
